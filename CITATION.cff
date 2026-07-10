@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the associated manuscript."
+title: "Wearable 16-channel EEG analysis code"
+authors:
+  - family-names: "Zhang"
+    given-names: "Zongman"
+date-released: 2026-07-11
+repository-code: "https://github.com/USERNAME/wearable-16ch-eeg-analysis"
+date-released: 2026-07-11
+license: MIT
+
+preferred-citation:
+  type: article
+  title: "Wearable 16-channel electroencephalography for 8-day continuous monitoring"
+  authors:
+    - family-names: "Zhang"
+      given-names: "San"
+  journal: "Journal Name"
+  year: 2026
