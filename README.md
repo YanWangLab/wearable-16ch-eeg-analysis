@@ -37,14 +37,14 @@ The full experimental EEG dataset is not publicly released. A small demo dataset
 
 ## Main scripts
 
-| File | Description |
-|---|---|
-| `segment.py` | Segments raw EEG data according to the timetable. |
+| File               | Description                                                                                              |
+| ------------------ | -------------------------------------------------------------------------------------------------------- |
+| `segment.py`       | Segments raw EEG data according to the timetable.                                                        |
 | `preprocessing.py` | Performs EEG filtering, STFT calculation, frequency-feature extraction, and sliding-window construction. |
-| `build_dataset.py` | Builds PyTorch training and validation datasets from segmented EEG data. |
-| `model.py` | Defines the LSTM-based EEG regression model. |
-| `train.py` | Trains the model and saves the best checkpoint. |
-| `test.py` | Runs inference on demo test data and saves the prediction results. |
+| `build_dataset.py` | Builds PyTorch training and validation datasets from segmented EEG data.                                 |
+| `model.py`         | Defines the LSTM-based EEG regression model.                                                             |
+| `train.py`         | Trains the model and saves the best checkpoint.                                                          |
+| `test.py`          | Runs inference on demo test data and saves the prediction results.                                       |
 
 ## Requirements
 
@@ -188,3 +188,13 @@ If you use this code, please cite the associated manuscript. Citation metadata a
 ## License
 
 This repository is released under the MIT License. See `LICENSE` for details.
+
+# Manuscript Version
+
+This repository contains the custom code associated with the manuscript
+“Wearable 16-channel electroencephalography for 8-day continuous monitoring”,
+currently under peer review.
+
+The repository may be updated in response to editorial and reviewer comments.
+Upon publication, the version corresponding to the published article will be
+archived in a DOI-minting repository.
