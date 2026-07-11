@@ -20,6 +20,8 @@ def main():
             output = model((torch.tensor(test_data[i,:,:,:]).reshape(16*27,20).T).unsqueeze(0).float().to(device))
             result.append(round((output*100).cpu().numpy()[0,0].tolist()))
         plt.plot(result)
+        plt.xlabel("Time (sec)")
+        plt.ylabel("Attention level")
         plt.savefig(r"./data/test_data/result/test_result.png")
     pd.DataFrame(result).to_csv(r"./data/test_data/result/test_result.csv")
 if __name__ == "__main__":
