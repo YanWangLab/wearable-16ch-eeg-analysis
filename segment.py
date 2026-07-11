@@ -24,7 +24,7 @@ def dateTime2index(dateTime_arr,timePoints,label):
             if np.where(timePoints>time)[0].size>0:
                 index.append(np.where(timePoints>time)[0][0])
             else:
-                index.append(timePoints[-1])
+                index.append(len(timePoints)-1)
     return index
 
 def seg_data(FS,TIME_OFFSET_SEC,path,demo_data_name,time_table_name):

@@ -39,6 +39,6 @@ def pick_data(processed_data):
     num = t-20
     #print(t,num)
     np_arr = np.empty((num,ch,freq,20))
-    for i in range(num):
+    for i in range(num+1):
         np_arr[i] = processed_data[:,:,i:i+20]
     return np_arr
