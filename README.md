@@ -1,8 +1,12 @@
 # Wearable 16-Channel EEG Analysis Code
 
-This repository contains demo code for EEG segmentation, preprocessing, feature extraction, model training, testing, and supplementary visualization. The code is provided as the code-availability repository for the associated manuscript.
+This repository contains the manuscript review version of the custom code associated with the manuscript **“Wearable 16-channel electroencephalography for 8-day continuous monitoring”**, currently under peer review.
 
-The full experimental EEG dataset is not publicly released. A small demo dataset is included to demonstrate the complete computational workflow.
+The repository includes demo code for EEG segmentation, preprocessing, feature extraction, model training, model testing, and additional analysis and visualization. Demo data are provided to demonstrate the main computational workflow for model training and testing.
+
+The complete experimental EEG dataset used in the manuscript is not publicly released because it contains participant-related recordings and is subject to privacy and data-sharing restrictions. The scripts in `additional analysis and visualization/` are provided as code only; their corresponding input data are not included because they are derived from participant-related experimental recordings.
+
+The repository may be updated in response to editorial and reviewer comments. Upon publication, the version corresponding to the published article will be archived in a DOI-minting repository.
 
 ## Repository structure
 
@@ -21,34 +25,92 @@ The full experimental EEG dataset is not publicly released. A small demo dataset
 ├── data/
 │   ├── train_data/
 │   │   ├── raw/
+│   │   │   └── 20260805T193613.csv
 │   │   ├── segment_datas/
+│   │   │   ├── find_numbers_segment.npy
+│   │   │   ├── fn_grades.npy
+│   │   │   ├── relax_numbers_segment.npy
+│   │   │   └── sleep_data.csv
 │   │   ├── processed/
 │   │   └── fn_rx_timetable.xlsx
+│   │
 │   └── test_data/
 │       ├── processed_data/
+│       │   └── test_data.npy
 │       └── result/
 │
 ├── checkpoints/
+│   ├── best_model.pth
+│   └── train_demo.pth
 │
 └── additional analysis and visualization/
     ├── python/
+    │   ├── plot_functional_connectivity.py
+    │   └── plot_scalp_topography.py
+    │
     └── matlab/
+        ├── eeg_signal_processing_pipeline.m
+        ├── motion_artifact_fft_wtc_snr.m
+        └── psg_validation_sleep_analysis.m
 ```
 
-## Main scripts
+## File composition
 
-| File               | Description                                                                                              |
-| ------------------ | -------------------------------------------------------------------------------------------------------- |
-| `segment.py`       | Segments raw EEG data according to the timetable.                                                        |
-| `preprocessing.py` | Performs EEG filtering, STFT calculation, frequency-feature extraction, and sliding-window construction. |
-| `build_dataset.py` | Builds PyTorch training and validation datasets from segmented EEG data.                                 |
-| `model.py`         | Defines the LSTM-based EEG regression model.                                                             |
-| `train.py`         | Trains the model and saves the best checkpoint.                                                          |
-| `test.py`          | Runs inference on demo test data and saves the prediction results.                                       |
+### Main Python scripts
+
+| File               | Description                                                                                                                                                                                         |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `segment.py`       | Segments raw EEG recordings according to the timetable file. The current demo input is `data/train_data/raw/20260805T193613.csv`, and the timetable file is `data/train_data/fn_rx_timetable.xlsx`. |
+| `preprocessing.py` | Performs EEG filtering, notch filtering, STFT calculation, frequency-feature extraction, and sliding-window construction.                                                                           |
+| `build_dataset.py` | Builds PyTorch training and validation datasets from the segmented EEG data and the demo sleep-data file.                                                                                           |
+| `model.py`         | Defines the LSTM-based EEG regression model.                                                                                                                                                        |
+| `train.py`         | Trains the LSTM model using the processed demo training and validation datasets, and saves the demo checkpoint.                                                                                     |
+| `test.py`          | Runs inference on the processed demo test data and saves the prediction results.                                                                                                                    |
+
+### Data files and folders
+
+| File or folder                                            | Description                                                                                                                                          |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data/train_data/raw/20260805T193613.csv`                 | Demo raw EEG recording used by `segment.py`.                                                                                                         |
+| `data/train_data/fn_rx_timetable.xlsx`                    | Timetable file used by `segment.py` to define EEG segmentation intervals.                                                                            |
+| `data/train_data/segment_datas/find_numbers_segment.npy`  | Segmented EEG data for the find-number task. This file can be generated by `segment.py`.                                                             |
+| `data/train_data/segment_datas/fn_grades.npy`             | Demo labels generated for the find-number task. This file can be generated by `segment.py`.                                                          |
+| `data/train_data/segment_datas/relax_numbers_segment.npy` | Segmented EEG data for the relaxation condition. This file can be generated by `segment.py`.                                                         |
+| `data/train_data/segment_datas/sleep_data.csv`            | Demo sleep data used for model training. This file is provided to demonstrate the training workflow and does not contain the complete study dataset. |
+| `data/train_data/processed/`                              | Output folder for processed training and validation datasets generated by `build_dataset.py`.                                                        |
+| `data/test_data/processed_data/test_data.npy`             | Processed demo test data used by `test.py`.                                                                                                          |
+| `data/test_data/result/`                                  | Output folder for test predictions and figures generated by `test.py`.                                                                               |
+
+### Model checkpoints
+
+| File or folder               | Description                                                         |
+| ---------------------------- | ------------------------------------------------------------------- |
+| `checkpoints/train_demo.pth` | Checkpoint generated from the demo training workflow.               |
+| `checkpoints/best_model.pth` | Checkpoint loaded by the current testing script for demo inference. |
+
+### Additional analysis and visualization scripts
+
+The folder `additional analysis and visualization/` contains scripts for supplementary analysis and figure generation.
+
+| File                                                                            | Description                                                             |
+| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `additional analysis and visualization/python/plot_functional_connectivity.py`  | Python script for plotting functional connectivity-related results.     |
+| `additional analysis and visualization/python/plot_scalp_topography.py`         | Python script for plotting scalp topography-related results.            |
+| `additional analysis and visualization/matlab/eeg_signal_processing_pipeline.m` | MATLAB script for EEG signal-processing analysis.                       |
+| `additional analysis and visualization/matlab/motion_artifact_fft_wtc_snr.m`    | MATLAB script for motion-artifact, FFT, WTC, and SNR-related analysis.  |
+| `additional analysis and visualization/matlab/psg_validation_sleep_analysis.m`  | MATLAB script for PSG validation and sleep-analysis-related processing. |
+
+Please note that the scripts in `additional analysis and visualization/` are provided as code only. The corresponding input data are not included in this repository because they are derived from participant-related experimental recordings and are subject to privacy and data-sharing restrictions.
 
 ## Requirements
 
-The code was developed with Python 3.9. A CUDA-enabled GPU is optional; the demo can also run on CPU.
+The code was developed and tested with:
+
+```text
+python==3.9.16
+```
+
+A CUDA-enabled GPU is optional. The demo workflow can also be run on CPU.
 
 Install dependencies with:
 
@@ -59,6 +121,7 @@ pip install -r requirements.txt
 Main Python dependencies include:
 
 ```text
+python==3.9.16
 numpy
 pandas
 scipy
@@ -72,15 +135,20 @@ openpyxl
 
 ## Demo data
 
-The demo data are organized under `data/`. The expected files include:
+The repository includes demo data to demonstrate the computational workflow for EEG segmentation, model training, and model testing.
+
+Expected demo files include:
 
 ```text
 data/train_data/raw/20260805T193613.csv
 data/train_data/fn_rx_timetable.xlsx
+data/train_data/segment_datas/sleep_data.csv
 data/test_data/processed_data/test_data.npy
 ```
 
-The full original dataset used in the manuscript is not included in this repository because of data-sharing restrictions.
+The file `data/train_data/segment_datas/sleep_data.csv` contains demo sleep data used for model training. This file is provided only to demonstrate code execution and the training workflow.
+
+The complete original dataset used in the manuscript is not included in this repository because it contains participant-related EEG and sleep-monitoring recordings and is subject to privacy and data-sharing restrictions.
 
 ## Usage
 
@@ -92,10 +160,25 @@ Run the pipeline from the repository root.
 python segment.py
 ```
 
-This creates segmented EEG files under:
+This script reads:
+
+```text
+data/train_data/raw/20260805T193613.csv
+data/train_data/fn_rx_timetable.xlsx
+```
+
+and creates segmented EEG files under:
 
 ```text
 data/train_data/segment_datas/
+```
+
+Expected outputs include:
+
+```text
+data/train_data/segment_datas/find_numbers_segment.npy
+data/train_data/segment_datas/fn_grades.npy
+data/train_data/segment_datas/relax_numbers_segment.npy
 ```
 
 ### 2. Build train and validation datasets
@@ -104,7 +187,16 @@ data/train_data/segment_datas/
 python build_dataset.py
 ```
 
-This creates:
+This script reads:
+
+```text
+data/train_data/segment_datas/find_numbers_segment.npy
+data/train_data/segment_datas/relax_numbers_segment.npy
+data/train_data/segment_datas/fn_grades.npy
+data/train_data/segment_datas/sleep_data.csv
+```
+
+and creates:
 
 ```text
 data/train_data/processed/train_dataset.pt
@@ -117,7 +209,14 @@ data/train_data/processed/valid_dataset.pt
 python train.py
 ```
 
-The training script saves the demo checkpoint to:
+The training script reads:
+
+```text
+data/train_data/processed/train_dataset.pt
+data/train_data/processed/valid_dataset.pt
+```
+
+and saves the demo checkpoint to:
 
 ```text
 checkpoints/train_demo.pth
@@ -133,6 +232,7 @@ The current test script loads:
 
 ```text
 checkpoints/best_model.pth
+data/test_data/processed_data/test_data.npy
 ```
 
 and saves the outputs to:
@@ -142,11 +242,15 @@ data/test_data/result/test_result.png
 data/test_data/result/test_result.csv
 ```
 
-If using a newly trained checkpoint, update the checkpoint path in `test.py` or copy the trained checkpoint to `checkpoints/best_model.pth`.
+If using a newly trained checkpoint, update the checkpoint path in `test.py` or copy the trained checkpoint to:
 
-## Supplementary analysis and visualization
+```text
+checkpoints/best_model.pth
+```
 
-Additional scripts are provided for visualization and supplementary analysis:
+## ## Supplementary analysis and visualization
+
+The folder `additional analysis and visualization/` contains scripts for supplementary analysis and figure generation associated with the manuscript.
 
 ```text
 additional analysis and visualization/python/plot_functional_connectivity.py
@@ -156,14 +260,19 @@ additional analysis and visualization/matlab/motion_artifact_fft_wtc_snr.m
 additional analysis and visualization/matlab/psg_validation_sleep_analysis.m
 ```
 
-Run the Python visualization scripts with:
+These scripts are provided to document the analysis procedures used in the study. However, the corresponding input data for these scripts are not included in this repository. The input data are derived from participant-related experimental recordings, including EEG and sleep-monitoring data, and are subject to privacy, ethical, and data-sharing restrictions.
 
-```bash
-python "additional analysis and visualization/python/plot_functional_connectivity.py"
-python "additional analysis and visualization/python/plot_scalp_topography.py"
-```
+Therefore, the scripts in `additional analysis and visualization/` are released as code only. They are intended to make the analysis workflow transparent, but they are not expected to run directly without the restricted study data.
 
-The MATLAB scripts require MATLAB and the corresponding example input files.
+Where applicable, users may adapt these scripts to their own data after preparing input files with the corresponding structure and format.
+
+## Code availability statement
+
+The analysis code and demo data required to reproduce the main computational workflow are available in this repository under the MIT License. The repository includes demo data for EEG segmentation, model training, and model testing.
+
+The complete raw EEG dataset used in the manuscript is not publicly available because it contains participant-related recordings and is subject to privacy and data-sharing restrictions.
+
+The scripts in `additional analysis and visualization/` are provided as code only. The corresponding input data are not included because they are derived from participant-related experimental recordings and cannot be publicly released under the applicable privacy, ethical, and data-sharing constraints.
 
 ## Outputs
 
@@ -179,7 +288,9 @@ outputs/
 
 ## Code availability statement
 
-The analysis code and demo data required to reproduce the computational workflow are available in this repository under the MIT License. The complete raw EEG dataset is not publicly available because of data-sharing and privacy restrictions. Demo files are provided to verify the code execution pipeline.
+The analysis code and demo data required to reproduce the computational workflow are available in this repository under the MIT License. The included demo files are provided to verify code execution and illustrate the analysis pipeline.
+
+The complete raw EEG dataset and the input data required for the additional analysis and visualization scripts are not publicly available because they contain participant-related information and are subject to privacy and data-sharing restrictions.
 
 ## Citation
 
@@ -188,13 +299,3 @@ If you use this code, please cite the associated manuscript. Citation metadata a
 ## License
 
 This repository is released under the MIT License. See `LICENSE` for details.
-
-# Manuscript Version
-
-This repository contains the custom code associated with the manuscript
-“Wearable 16-channel electroencephalography for 8-day continuous monitoring”,
-currently under peer review.
-
-The repository may be updated in response to editorial and reviewer comments.
-Upon publication, the version corresponding to the published article will be
-archived in a DOI-minting repository.

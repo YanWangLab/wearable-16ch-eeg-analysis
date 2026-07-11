@@ -27,8 +27,6 @@ def dateTime2index(dateTime_arr,timePoints,label):
                 index.append(timePoints[-1])
     return index
 
-    FS = 125
-    TIME_OFFSET_SEC = 19
 def seg_data(FS,TIME_OFFSET_SEC,path,demo_data_name,time_table_name):
     offset_points = TIME_OFFSET_SEC * FS
     demo_data_path = path+'/'+demo_data_name
@@ -64,7 +62,7 @@ def seg_data(FS,TIME_OFFSET_SEC,path,demo_data_name,time_table_name):
         rx_end_dt = combine_date_time(start_time, rx_end)
 
         st = dateTime2index([fn_start_dt,rx_start_dt],timePoints,'st')
-        et = dateTime2index([fn_end_dt,rx_end_dt],timePoints,'st')
+        et = dateTime2index([fn_end_dt,rx_end_dt],timePoints,'et')
 
         fn_start = np.array([datetime.strptime(x.split('-')[0],'%H:%M:%S').time() for x in all_list.flatten()])
         rx_end = np.array([datetime.strptime(x.split('-')[1],'%H:%M:%S').time() for x in all_list.flatten()])

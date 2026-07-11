@@ -3,7 +3,15 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 from model import LSTM_eeg
 from build_dataset import CustomDataset
+import numpy as np
+import random
 
+def setup_seed(seed):
+     torch.manual_seed(seed)
+     torch.cuda.manual_seed_all(seed)
+     np.random.seed(seed)
+     random.seed(seed)
+     torch.backends.cudnn.deterministic = True
 
 def compute_r2(y_true, y_pred):
     y_true = torch.cat(y_true, dim=0).view(-1)
@@ -16,9 +24,7 @@ def compute_r2(y_true, y_pred):
     return r2.item()
 
 def train(model, train_data_loader,valid_data_loader, criterion, optimizer, num_epochs,device,patience=5,min_delta=1e-4):  
-    best_loss = float('inf')
     best_valid_r2 = -float('inf')
-    early_stop_count = 0
     for epoch in range(num_epochs):
         model.train()
         total_loss  = 0
@@ -69,6 +75,7 @@ def train(model, train_data_loader,valid_data_loader, criterion, optimizer, num_
         
 
 def main():
+    setup_seed(40)
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     train_dataset = torch.load(r"./data/train_data/processed/train_dataset.pt",weights_only=False)
     valid_dataset = torch.load(r"./data/train_data/processed/valid_dataset.pt",weights_only=False)
