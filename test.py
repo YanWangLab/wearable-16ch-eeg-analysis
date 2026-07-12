@@ -7,8 +7,9 @@ import pandas as pd
 
 def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    checkpoint_path = r'./checkpoints/best_model.pth'
     model = LSTM_eeg(input_size=16*27, hidden_size=32, num_layers=3, output_size=1).to(device)
-    params = torch.load(r'./checkpoints/best_model.pth',map_location=device,weights_only=True,)
+    params = torch.load(checkpoint_path,map_location=device,weights_only=True,)
     model.eval()
     model.load_state_dict(params)
     #model.to(device)
