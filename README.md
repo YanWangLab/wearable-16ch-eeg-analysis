@@ -31,7 +31,7 @@ The repository may be updated during the manuscript review process. The version 
 ├── data/
 │   ├── train_data/
 │   │   ├── raw/
-│   │   │   └── 20260805T193613.csv
+│   │   │   └── 20240805T193613.csv
 │   │   ├── segment_datas/
 │   │   │   ├── find_numbers_segment.npy
 │   │   │   ├── fn_grades.npy
@@ -78,7 +78,7 @@ A short segment of EEG data is included to demonstrate the file-segmentation and
 The repository includes the following demo files:
 
 ```text
-data/train_data/raw/20260805T193613.csv
+data/train_data/raw/20240805T193613.csv
 data/train_data/fn_rx_timetable.xlsx
 data/train_data/segment_datas/sleep_data.csv
 data/test_data/processed_data/test_data.npy
@@ -88,7 +88,7 @@ data/test_data/processed_data/test_data.npy
 
 | File or folder                                            | Description                                                                   |
 | --------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `data/train_data/raw/20260805T193613.csv`                 | Short example segment of a raw 16-channel EEG recording used by `segment.py`. |
+| `data/train_data/raw/20240805T193613.csv`                 | Short example segment of a raw 16-channel EEG recording used by `segment.py`. |
 | `data/train_data/fn_rx_timetable.xlsx`                    | Example timetable defining the EEG segmentation intervals.                    |
 | `data/train_data/segment_datas/find_numbers_segment.npy`  | Segmented EEG data for the find-number task.                                  |
 | `data/train_data/segment_datas/fn_grades.npy`             | Demo labels for the find-number task.                                         |
@@ -141,7 +141,7 @@ where:
 The example file is located at:
 
 ```text
-data/train_data/raw/20260805T193613.csv
+data/train_data/raw/20240805T193613.csv
 ```
 
 Users applying the scripts to their own EEG recordings should retain the same column organization or adapt the data-loading code accordingly.
@@ -150,7 +150,7 @@ Users applying the scripts to their own EEG recordings should retain the same co
 
 This repository includes a de-identified example recording of real human electroencephalography (EEG) data. The example data are provided solely to demonstrate and evaluate the analysis workflow implemented in this repository. All direct personal identifiers have been removed.
 
-The original data collection was conducted under the ethics approval described in the associated manuscript. The participant provided informed consent that permits the public sharing of de-identified excerpts of the recorded data. The example recording is not intended to represent the complete study dataset or to support independent reproduction of all study-level results.
+The original data collection was conducted under the ethics approval and informed-consent procedures described in the associated manuscript. The example recording is not intended to represent the complete study dataset or to support independent reproduction of all study-level results.
 
 The example EEG data may be downloaded and used only for evaluating, testing, and reproducing the code workflow provided in this repository. Redistribution, publication, commercial use, or secondary research use of the example data is not permitted without prior written permission from the authors.
 
@@ -220,7 +220,7 @@ python segment.py
 `segment.py` demonstrates the segmentation procedure using one short example EEG file:
 
 ```text
-data/train_data/raw/20240805T    193613.csv
+data/train_data/raw/20240805T193613.csv
 ```
 
 and its corresponding timetable:
@@ -671,4 +671,4 @@ CITATION.cff
 
 ## License
 
-This repository is released under the MIT License. See [`LICENSE`](https://chatgpt.com/LICENSE) for details.
+This repository is released under the MIT License. See [LICENSE](LICENSE) for details.
