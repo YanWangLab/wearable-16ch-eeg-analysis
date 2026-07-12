@@ -25,6 +25,7 @@ def compute_r2(y_true, y_pred):
 
 def train(model, train_data_loader,valid_data_loader, criterion, optimizer, num_epochs,device,patience=5,min_delta=1e-4):  
     best_valid_r2 = -float('inf')
+    stop_count = 0
     for epoch in range(num_epochs):
         model.train()
         total_loss  = 0
