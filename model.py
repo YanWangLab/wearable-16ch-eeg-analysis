@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 class LSTM_eeg(nn.Module):
     def __init__(self,input_size, hidden_size, num_layers, output_size):
         super(LSTM_eeg, self).__init__()
