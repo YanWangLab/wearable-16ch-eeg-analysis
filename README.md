@@ -324,7 +324,8 @@ params = torch.load(r"./checkpoints/train_demo.pth")
 
 The scripts in the `additional analysis and visualization/` directory provide reference implementations of selected analysis and visualization procedures used in the associated manuscript.
 
-This directory is not a complete standalone reproduction package. Some scripts require study data, intermediate files, or metadata that are not included in this repository. Therefore, the repository does not by itself support exact reproduction of all numerical results, statistical analyses, or figures reported in the manuscript.
+The `additional analysis and visualization/` directory is not a complete
+standalone reproduction package. Therefore, the repository does not by itself support exact reproduction of all numerical results, statistical analyses, or figures reported in the manuscript.
 
 Users who wish to run these scripts must provide compatible input data and update the file paths specified in the scripts. Depending on the analysis, additional MATLAB toolboxes or Python packages may also be required.
 
