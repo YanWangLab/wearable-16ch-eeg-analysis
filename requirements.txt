@@ -3,7 +3,7 @@ mne==1.8.0
 numpy==1.24.3
 pandas==2.3.3
 scipy==1.13.1
-torch==2.8.0+cu128
+torch==2.8.0
 h5py==3.12.1
 mne_connectivity==0.8.1
 openpyxl==3.1.5

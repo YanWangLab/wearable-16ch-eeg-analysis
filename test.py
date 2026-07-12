@@ -7,11 +7,11 @@ import pandas as pd
 
 def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    model = LSTM_eeg(input_size=16*27, hidden_size=32, num_layers=3, output_size=1).to('cpu')
-    params = torch.load(r'./checkpoints/best_model.pth')
+    model = LSTM_eeg(input_size=16*27, hidden_size=32, num_layers=3, output_size=1).to(device)
+    params = torch.load(r'./checkpoints/best_model.pth',map_location=device,weights_only=True,)
     model.eval()
     model.load_state_dict(params)
-    model.to(device)
+    #model.to(device)
     #load test_data
     test_data = np.load(r"./data/test_data/processed_data/test_data.npy")
     result = []
