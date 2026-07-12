@@ -150,7 +150,7 @@ Users applying the scripts to their own EEG recordings should retain the same co
 
 This repository includes a de-identified example recording of real human electroencephalography (EEG) data. The example data are provided solely to demonstrate and evaluate the analysis workflow implemented in this repository. All direct personal identifiers have been removed.
 
-The original data collection was conducted under the ethics approval and informed-consent procedures described in the associated manuscript. The example recording is not intended to represent the complete study dataset or to support independent reproduction of all study-level results.
+The original data collection was conducted under the ethics approval described in the associated manuscript. The participant provided informed consent that permits the public sharing of de-identified excerpts of the recorded data. The example recording is not intended to represent the complete study dataset or to support independent reproduction of all study-level results.
 
 The example EEG data may be downloaded and used only for evaluating, testing, and reproducing the code workflow provided in this repository. Redistribution, publication, commercial use, or secondary research use of the example data is not permitted without prior written permission from the authors.
 
@@ -197,13 +197,15 @@ h5py
 openpyxl
 ```
 
-A CUDA-enabled GPU can be used for model training and inference. The Python scripts also select the CPU when CUDA is unavailable.
+Install the required Python packages using:
 
-Install the required packages from the repository root:
-
-```bash
+```
 pip install -r requirements.txt
 ```
+
+The default dependency file installs the standard PyTorch package from PyPI. Users who require a specific CUDA-enabled PyTorch build should install the appropriate version by following the official PyTorch installation instructions for their operating system, Python version, and CUDA environment.
+
+The code automatically uses a CUDA-capable GPU when one is available and otherwise runs on the CPU.
 
 ## Usage
 
@@ -218,7 +220,7 @@ python segment.py
 `segment.py` demonstrates the segmentation procedure using one short example EEG file:
 
 ```text
-data/train_data/raw/20240805T193613.csv
+data/train_data/raw/20240805T    193613.csv
 ```
 
 and its corresponding timetable:
@@ -320,11 +322,11 @@ params = torch.load(r"./checkpoints/train_demo.pth")
 
 ## Additional analysis and visualization
 
-The [`additional analysis and visualization/`](additional%20analysis%20and%20visualization/) directory contains reference implementations of the analysis and visualization procedures used in the manuscript.
+The scripts in the `additional analysis and visualization/` directory provide reference implementations of selected analysis and visualization procedures used in the associated manuscript.
 
-These scripts are provided as reference implementations of the analysis and visualization procedures used in the manuscript. The complete study datasets required by these scripts are not included in this review repository.
+This directory is not a complete standalone reproduction package. Some scripts require study data, intermediate files, or metadata that are not included in this repository. Therefore, the repository does not by itself support exact reproduction of all numerical results, statistical analyses, or figures reported in the manuscript.
 
-The default input paths, analysis intervals, channel mappings, and execution switches are defined near the beginning of each script. Users applying these scripts to their own data should update these settings and prepare input files with the expected variables and data structures.
+Users who wish to run these scripts must provide compatible input data and update the file paths specified in the scripts. Depending on the analysis, additional MATLAB toolboxes or Python packages may also be required.
 
 ### Python scripts
 
