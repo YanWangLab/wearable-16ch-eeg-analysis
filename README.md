@@ -218,7 +218,7 @@ python segment.py
 `segment.py` demonstrates the segmentation procedure using one short example EEG file:
 
 ```text
-data/train_data/raw/20260805T193613.csv
+data/train_data/raw/20240805T193613.csv
 ```
 
 and its corresponding timetable:
@@ -318,7 +318,7 @@ to:
 params = torch.load(r"./checkpoints/train_demo.pth")
 ```
 
-## ## Additional analysis and visualization
+## Additional analysis and visualization
 
 The [`additional analysis and visualization/`](additional%20analysis%20and%20visualization/) directory contains reference implementations of the analysis and visualization procedures used in the manuscript.
 
