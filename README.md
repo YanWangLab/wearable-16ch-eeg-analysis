@@ -146,6 +146,14 @@ data/train_data/raw/20260805T193613.csv
 
 Users applying the scripts to their own EEG recordings should retain the same column organization or adapt the data-loading code accordingly.
 
+## Example EEG data
+
+This repository includes a de-identified example recording of real human electroencephalography (EEG) data. The example data are provided solely to demonstrate and evaluate the analysis workflow implemented in this repository. All direct personal identifiers have been removed.
+
+The original data collection was conducted under the ethics approval and informed-consent procedures described in the associated manuscript. The example recording is not intended to represent the complete study dataset or to support independent reproduction of all study-level results.
+
+The example EEG data may be downloaded and used only for evaluating, testing, and reproducing the code workflow provided in this repository. Redistribution, publication, commercial use, or secondary research use of the example data is not permitted without prior written permission from the authors.
+
 ## Model checkpoints
 
 Two types of model checkpoints are used in this repository:
@@ -310,26 +318,335 @@ to:
 params = torch.load(r"./checkpoints/train_demo.pth")
 ```
 
-## Additional analysis and visualization
+## ## Additional analysis and visualization
 
-The `additional analysis and visualization/` directory contains selected implementations of analysis and visualization methods used in the manuscript.
+The [`additional analysis and visualization/`](additional%20analysis%20and%20visualization/) directory contains reference implementations of the analysis and visualization procedures used in the manuscript.
+
+These scripts are provided as reference implementations of the analysis and visualization procedures used in the manuscript. The complete study datasets required by these scripts are not included in this review repository.
+
+The default input paths, analysis intervals, channel mappings, and execution switches are defined near the beginning of each script. Users applying these scripts to their own data should update these settings and prepare input files with the expected variables and data structures.
 
 ### Python scripts
 
-| File                              | Description                                       |
-| --------------------------------- | ------------------------------------------------- |
-| `plot_functional_connectivity.py` | Generates functional-connectivity visualizations. |
-| `plot_scalp_topography.py`        | Generates scalp-topography visualizations.        |
+#### `plot_functional_connectivity.py`
+
+Generates frequency-band functional-connectivity matrices and circular connectivity plots from filtered 16-channel EEG data.
+
+**Default input file**
+
+```text
+example_data/eeg_data_filtered.mat
+```
+
+**Expected variables**
+
+| Variable             | Required | Description                                                                                |
+| -------------------- | -------- | ------------------------------------------------------------------------------------------ |
+| `eeg_data_flt`       | Yes      | Two-dimensional filtered EEG array. One dimension must contain the 16 EEG channels.        |
+| `data_invalid_array` | No       | Array with the same orientation as `eeg_data_flt`. Nonzero samples are treated as invalid. |
+| `fs`                 | No       | Sampling frequency in Hz. A default value is used if this variable is absent.              |
+
+**Python dependencies**
+
+```text
+numpy
+pandas
+matplotlib
+h5py
+mne
+mne-connectivity
+```
+
+**Main configuration variables**
+
+```text
+DATA_FILE
+OUTPUT_FOLDER
+START_TIME_SEC
+END_TIME_SEC
+EPOCH_LENGTH_SEC
+CH_NAMES
+BANDS
+VMIN
+VMAX
+```
+
+#### `plot_scalp_topography.py`
+
+Generates scalp-topography maps from channel-level EEG band-power values stored in CSV files.
+
+**Default input folder**
+
+```text
+example_data/scalp_map_csv/
+```
+
+**Expected input files**
+
+```text
+*.csv
+```
+
+**Expected CSV columns**
+
+| Column           | Description                                                          |
+| ---------------- | -------------------------------------------------------------------- |
+| `channel`        | EEG channel name compatible with the MNE montage used by the script. |
+| `total_power_dB` | Total EEG power in decibels.                                         |
+| `delta_power_dB` | Delta-band power in decibels.                                        |
+| `theta_power_dB` | Theta-band power in decibels.                                        |
+| `alpha_power_dB` | Alpha-band power in decibels.                                        |
+| `beta_power_dB`  | Beta-band power in decibels.                                         |
+
+**Python dependencies**
+
+```text
+numpy
+pandas
+matplotlib
+mne
+```
+
+**Main configuration variables**
+
+```text
+INPUT_FOLDER
+OUTPUT_FOLDER
+SFREQ
+COLOR_RANGE_TOTAL_POWER
+COLOR_RANGE_BAND_DB
+CONTOUR_NUM
+COLORMAP
+```
 
 ### MATLAB scripts
 
-| File                               | Description                                                                                       |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `eeg_signal_processing_pipeline.m` | Implements EEG signal-processing procedures used in the study.                                    |
-| `motion_artifact_fft_wtc_snr.m`    | Implements motion-artifact, FFT, wavelet-transform coherence, and signal-to-noise-ratio analyses. |
-| `psg_validation_sleep_analysis.m`  | Implements PSG validation and sleep-related analyses.                                             |
+#### `eeg_signal_processing_pipeline.m`
 
-These scripts provide implementations of the corresponding methods described in the manuscript.
+Implements channel reordering, FIR band-pass filtering, data-loss marking, motion-artifact marking, and optional correction of the F3 disconnection period.
+
+**Default input files**
+
+```text
+example_data/raw_data.mat
+example_data/label.mat
+```
+
+**Required variables in `raw_data.mat`**
+
+| Variable          | Description                                             |
+| ----------------- | ------------------------------------------------------- |
+| `eeg_data_raw`    | Raw EEG samples arranged as samples × channels.         |
+| `timePoints`      | Datetime value for each EEG sample.                     |
+| `t_list`          | Relative time vector.                                   |
+| `sample_period`   | Sampling period.                                        |
+| `fs`              | Sampling frequency in Hz.                               |
+| `startTime`       | Recording start time.                                   |
+| `data_loss_index` | Logical or numeric index identifying data-loss samples. |
+
+**Optional variable in `label.mat`**
+
+| Variable         | Description                                 |
+| ---------------- | ------------------------------------------- |
+| `timePoints_arr` | Activity label associated with each sample. |
+
+**Required MATLAB toolbox**
+
+```text
+Signal Processing Toolbox
+```
+
+The toolbox is required for signal-processing functions such as `fir2`, `freqz`, and `filtfilt`.
+
+**Main configuration variables**
+
+```text
+RAW_DATA_FILE
+LABEL_FILE
+OUTPUT_FILE
+APPLY_F3_DISCONNECTION_CORRECTION
+PLOT_FILTER_RESPONSE
+```
+
+The hard-coded F3 disconnection interval is specific to the original recording and should be disabled or updated when processing another dataset.
+
+#### `motion_artifact_fft_wtc_snr.m`
+
+Implements FFT spectrum export, EEG–motion wavelet-coherence visualization, and signal-to-noise-ratio calculation after harmonic-peak removal.
+
+The analysis components can be enabled or disabled using:
+
+```text
+RUN_EXPORT_FFT
+RUN_WAVELET_COHERENCE
+RUN_SNR_CALCULATION
+```
+
+**Default FFT and wavelet-coherence input files**
+
+```text
+example_data/motion_artifact/ECG_data_*.mat
+example_data/motion_artifact/ECG_data_example.mat
+```
+
+**Expected variable**
+
+| Variable     | Description                                                                                   |
+| ------------ | --------------------------------------------------------------------------------------------- |
+| `data_table` | MATLAB table containing a metadata or time column followed by EEG and motion-sensor channels. |
+
+**Optional colormap file**
+
+```text
+example_data/motion_artifact/colormap_c.mat
+```
+
+**Optional colormap variable**
+
+| Variable | Description                                                                                |
+| -------- | ------------------------------------------------------------------------------------------ |
+| `c`      | Custom colormap matrix. MATLAB's default colormap is used if this variable is unavailable. |
+
+**Default SNR-analysis input folder**
+
+```text
+example_data/motion_artifact/filtered_data/
+```
+
+**Supported SNR input formats**
+
+```text
+*.xlsx
+*.xls
+*.csv
+```
+
+The first table column is treated as an index or metadata column. The remaining columns should contain numeric EEG signals.
+
+Recommended EEG column names include both the channel and electrode type, for example:
+
+```text
+T8_gel
+T8_paste
+P4_gel
+P4_paste
+```
+
+**Required MATLAB toolbox**
+
+```text
+Signal Processing Toolbox
+```
+
+This toolbox is required for functions such as `pwelch` and `hamming`.
+
+**Additional toolbox required for wavelet coherence**
+
+```text
+Wavelet Toolbox
+```
+
+The Wavelet Toolbox is required when `RUN_WAVELET_COHERENCE` is enabled because the analysis uses `wcoherence`.
+
+#### `psg_validation_sleep_analysis.m`
+
+Implements wireless-EEG preprocessing, whole-night waveform and spectrogram generation, 30-second PSG comparison plots, and sleep-stage agreement analysis.
+
+The individual procedures can be enabled or disabled using the `RUN_*` switches near the beginning of the script.
+
+**Default input files**
+
+```text
+example_data/psg_validation/raw_data.mat
+example_data/psg_validation/eeg_data_filtered.mat
+example_data/psg_validation/eeg_data_hospital.mat
+example_data/psg_validation/sleep_stage_labels.xlsx
+```
+
+##### `raw_data.mat`
+
+This file is required when:
+
+```text
+RUN_PREPROCESS_WIRELESS_SLEEP_EEG = true
+```
+
+It must contain:
+
+| Variable        | Description                                                         |
+| --------------- | ------------------------------------------------------------------- |
+| `raw_data_list` | Structure array containing the raw wireless EEG recording segments. |
+
+Each element of `raw_data_list` is expected to contain:
+
+```text
+eeg_data_raw
+fs
+sample_period
+startTime
+timePoints
+t_list
+data_loss_index
+```
+
+##### `eeg_data_filtered.mat`
+
+| Variable             | Description                                     |
+| -------------------- | ----------------------------------------------- |
+| `eeg_data_flt`       | Filtered wireless EEG data.                     |
+| `fs`                 | Wireless EEG sampling frequency.                |
+| `timePoints`         | Datetime value for each wireless EEG sample.    |
+| `data_invalid_array` | Per-sample or per-channel invalid-data markers. |
+
+##### `eeg_data_hospital.mat`
+
+| Variable            | Description                        |
+| ------------------- | ---------------------------------- |
+| `eeg_data_hospital` | Hospital PSG EEG data.             |
+| `t_list`            | Relative hospital PSG time vector. |
+| `fs`                | Hospital PSG sampling frequency.   |
+
+##### `sleep_stage_labels.xlsx`
+
+The spreadsheet must contain at least three columns:
+
+| Column   | Description                       |
+| -------- | --------------------------------- |
+| Column 1 | Epoch time or epoch index.        |
+| Column 2 | Hospital PSG sleep-stage code.    |
+| Column 3 | Wireless-system sleep-stage code. |
+
+The sleep-stage columns are expected to use numeric stage codes from `1` to `5`.
+
+**Required MATLAB toolbox**
+
+```text
+Signal Processing Toolbox
+```
+
+This toolbox is required for functions such as `highpass`, `fir2`, `filtfilt`, `hann`, and `stft`.
+
+**Optional external function**
+
+```text
+cbrewer2
+```
+
+If `cbrewer2` is unavailable, the script uses MATLAB's built-in colormap instead.
+
+### MATLAB toolbox summary
+
+| Script                             | Signal Processing Toolbox | Wavelet Toolbox                  | Other requirements     |
+| ---------------------------------- |:-------------------------:|:--------------------------------:| ---------------------- |
+| `eeg_signal_processing_pipeline.m` | Required                  | No                               | None                   |
+| `motion_artifact_fft_wtc_snr.m`    | Required                  | Required when using `wcoherence` | None                   |
+| `psg_validation_sleep_analysis.m`  | Required                  | No                               | `cbrewer2` is optional |
+
+### Data availability
+
+The file paths and variable structures above describe the expected interfaces of the scripts. The complete study datasets required to reproduce all manuscript analyses are not included in this repository.
+
+Users must supply appropriately formatted input data or obtain authorized access to the relevant study data before running the complete analysis workflows.
 
 ## Generated outputs
 
