@@ -36,8 +36,14 @@ def stft_processed(freq,t,stft_Amp):
     
 def pick_data(processed_data):
     ch,freq,t = processed_data.shape
-    num = t-20+1
+    window_size = 20
+    num = t-window_size+1
     #print(t,num)
+    if num <= 0:
+        raise ValueError(
+            f"Expected at least {window_size} time steps, but received {t}."
+        )
+
     np_arr = np.empty((num,ch,freq,20))
     for i in range(num):
         np_arr[i] = processed_data[:,:,i:i+20]
