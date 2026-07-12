@@ -671,4 +671,9 @@ CITATION.cff
 
 ## License
 
-This repository is released under the MIT License. See [LICENSE](LICENSE) for details.
+The source code and documentation in this repository are licensed under
+the MIT License. See [LICENSE](LICENSE) for details.
+
+The example EEG data included in this repository are not covered by the
+MIT License. They are made available solely under the limited data-use
+terms described in the “Example EEG data” section below.
