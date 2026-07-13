@@ -48,10 +48,10 @@ def split_one_class(objects, labels, train_ratio=0.7):
     return x_train, x_valid, y_train, y_valid
 
 def main():
-    fn_eeg = np.load(r'./data/train_data/segment_datas/find_numbers_segment.npy')
-    rx_eeg = np.load(r'./data/train_data/segment_datas/relax_numbers_segment.npy')
+    fn_eeg = np.load(r'./data/train_data/segment_datas/number_search_segment.npy')
+    rx_eeg = np.load(r'./data/train_data/segment_datas/relaxing_segment.npy')
     sl_eeg = np.array(pd.read_csv("./data/train_data/segment_datas/sleep_data.csv"))[:,1:].T
-    fn_grades = np.atleast_1d(np.load(r'./data/train_data/segment_datas/fn_grades.npy'))
+    fn_grades = np.atleast_1d(np.load(r'./data/train_data/segment_datas/number_search_grades.npy'))
     fn_eeg_processed,fn_grade_list = data_process(fn_eeg,fn_grades)
     rx_eeg_processed,rx_grade_list = data_process(rx_eeg,20)
     sl_eeg_processed,sl_grade_list = data_process(sl_eeg,0)

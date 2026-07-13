@@ -33,12 +33,12 @@ The repository may be updated during the manuscript review process. The version 
 │   │   ├── raw/
 │   │   │   └── 20240805T193613.csv
 │   │   ├── segment_datas/
-│   │   │   ├── find_numbers_segment.npy
-│   │   │   ├── fn_grades.npy
-│   │   │   ├── relax_numbers_segment.npy
+│   │   │   ├── number_search_segment.npy
+│   │   │   ├── number_search_grades.npy
+│   │   │   ├── relaxing_segment.npy
 │   │   │   └── sleep_data.csv
 │   │   ├── processed/
-│   │   └── fn_rx_timetable.xlsx
+│   │   └── number_search_relaxing_timetable.xlsx
 │   │
 │   └── test_data/
 │       ├── processed_data/
@@ -79,7 +79,7 @@ The repository includes the following demo files:
 
 ```text
 data/train_data/raw/20240805T193613.csv
-data/train_data/fn_rx_timetable.xlsx
+data/train_data/number_search_relaxing_timetable.xlsx
 data/train_data/segment_datas/sleep_data.csv
 data/test_data/processed_data/test_data.npy
 ```
@@ -89,10 +89,10 @@ data/test_data/processed_data/test_data.npy
 | File or folder                                            | Description                                                                   |
 | --------------------------------------------------------- | ----------------------------------------------------------------------------- |
 | `data/train_data/raw/20240805T193613.csv`                 | Short example segment of a raw 16-channel EEG recording used by `segment.py`. |
-| `data/train_data/fn_rx_timetable.xlsx`                    | Example timetable defining the EEG segmentation intervals.                    |
-| `data/train_data/segment_datas/find_numbers_segment.npy`  | Segmented EEG data for the find-number task.                                  |
-| `data/train_data/segment_datas/fn_grades.npy`             | Demo labels for the find-number task.                                         |
-| `data/train_data/segment_datas/relax_numbers_segment.npy` | Segmented EEG data for the relaxation condition.                              |
+| `data/train_data/number_search_relaxing_timetable.xlsx`   | Example timetable defining the EEG segmentation intervals.                    |
+| `data/train_data/segment_datas/number_search_segment.npy` | Segmented EEG data for the find-number task.                                  |
+| `data/train_data/segment_datas/number_search_grades.npy`  | Demo labels for the find-number task.                                         |
+| `data/train_data/segment_datas/relaxing_segment.npy`      | Segmented EEG data for the relaxation condition.                              |
 | `data/train_data/segment_datas/sleep_data.csv`            | Demo sleep data used in the dataset-construction and training workflow.       |
 | `data/train_data/processed/`                              | Output directory for the generated PyTorch training and validation datasets.  |
 
@@ -226,7 +226,7 @@ data/train_data/raw/20240805T193613.csv
 and its corresponding timetable:
 
 ```text
-data/train_data/fn_rx_timetable.xlsx
+data/train_data/number_search_relaxing_timetable.xlsx
 ```
 
 The script is intended to illustrate the segmentation logic for a single example file.
@@ -242,9 +242,9 @@ data/train_data/segment_datas/
 Expected outputs are:
 
 ```text
-data/train_data/segment_datas/find_numbers_segment.npy
-data/train_data/segment_datas/fn_grades.npy
-data/train_data/segment_datas/relax_numbers_segment.npy
+data/train_data/segment_datas/number_search_segment.npy
+data/train_data/segment_datas/number_search_grades.npy
+data/train_data/segment_datas/relaxing_segment.npy
 ```
 
 ### 2. Build the training and validation datasets
@@ -256,9 +256,9 @@ python build_dataset.py
 The dataset-construction script demonstrates the processing logic using the included demo data:
 
 ```text
-data/train_data/segment_datas/find_numbers_segment.npy
-data/train_data/segment_datas/relax_numbers_segment.npy
-data/train_data/segment_datas/fn_grades.npy
+data/train_data/segment_datas/number_search_segment.npy
+data/train_data/segment_datas/relaxing_segment.npy
+data/train_data/segment_datas/number_search_grades.npy
 data/train_data/segment_datas/sleep_data.csv
 ```
 

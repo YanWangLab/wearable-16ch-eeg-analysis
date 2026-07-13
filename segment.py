@@ -9,7 +9,7 @@ TIME_OFFSET_SEC = 19
 offset_points = TIME_OFFSET_SEC * FS
 
 path = r"data/train_data/raw"
-time_table_name = r"data/train_data/fn_rx_timetable.xlsx"
+time_table_name = r"data/train_data/number_search_relaxing_timetable.xlsx"
 demo_data_name = r"20240805T193613.csv"
 OUT_DIR = r"data/train_data/segment_datas"
 
