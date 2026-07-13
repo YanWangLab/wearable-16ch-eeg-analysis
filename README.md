@@ -90,8 +90,8 @@ data/test_data/processed_data/test_data.npy
 | --------------------------------------------------------- | ----------------------------------------------------------------------------- |
 | `data/train_data/raw/20240805T193613.csv`                 | Short example segment of a raw 16-channel EEG recording used by `segment.py`. |
 | `data/train_data/number_search_relaxing_timetable.xlsx`   | Example timetable defining the EEG segmentation intervals.                    |
-| `data/train_data/segment_datas/number_search_segment.npy` | Segmented EEG data for the find-number task.                                  |
-| `data/train_data/segment_datas/number_search_grades.npy`  | Demo labels for the find-number task.                                         |
+| `data/train_data/segment_datas/number_search_segment.npy` | Segmented EEG data for the number_search task.                                |
+| `data/train_data/segment_datas/number_search_grades.npy`  | Demo labels for the number_search task.                                       |
 | `data/train_data/segment_datas/relaxing_segment.npy`      | Segmented EEG data for the relaxation condition.                              |
 | `data/train_data/segment_datas/sleep_data.csv`            | Demo sleep data used in the dataset-construction and training workflow.       |
 | `data/train_data/processed/`                              | Output directory for the generated PyTorch training and validation datasets.  |
@@ -676,4 +676,4 @@ the MIT License. See [LICENSE](LICENSE) for details.
 
 The example EEG data included in this repository are not covered by the
 MIT License. They are made available solely under the limited data-use
-terms described in the “Example EEG data” section below.
+terms described in the “Example EEG data” section of this README..

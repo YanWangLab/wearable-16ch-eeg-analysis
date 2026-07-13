@@ -90,9 +90,9 @@ def combine_date_time(base_datetime, clock_time):
 
 def main():
     fn_eeg,rx_eeg,fn_grades = seg_data(FS,TIME_OFFSET_SEC,path,demo_data_name,time_table_name)
-    np.save(OUT_DIR+'/'+'find_numbers_segment.npy', fn_eeg)
-    np.save(OUT_DIR+'/'+'fn_grades.npy', np.array(fn_grades))
-    np.save(OUT_DIR+'/'+'relax_numbers_segment.npy', rx_eeg)
+    np.save(OUT_DIR+'/'+'number_search_segment.npy', fn_eeg)
+    np.save(OUT_DIR+'/'+'number_search_grades.npy.npy', np.array(fn_grades))
+    np.save(OUT_DIR+'/'+'relaxing_segment.npy', rx_eeg)
 
 
 if __name__ == "__main__":
