@@ -1,5 +1,7 @@
 # Wearable 16-Channel EEG Analysis Code
 
+![Version](https://img.shields.io/badge/version-0.1.0-blue)
+
 This repository contains the code associated with the manuscript:
 
 **“Wearable 16-channel electroencephalography for 8-day continuous monitoring”**
